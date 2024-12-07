@@ -5,6 +5,10 @@ var path = require('path');
 var fs = require('fs');
 
 const route = require('./routes');
+const db = require('./config/db');
+
+// Connect to DB
+db.connect();
 
 const app = express();
 const port = 3000;
