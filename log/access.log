@@ -224,3 +224,6 @@
 ::1 - - [07/Dec/2024:01:37:34 +0000] "GET /search HTTP/1.1" 200 3454 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 ::1 - - [07/Dec/2024:01:41:19 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 ::1 - - [07/Dec/2024:01:41:21 +0000] "GET /search HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+::1 - - [07/Dec/2024:02:28:49 +0000] "GET /favicon.ico HTTP/1.1" 200 2756 "http://localhost:3000/search" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+::1 - - [07/Dec/2024:03:14:24 +0000] "GET /search HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+::1 - - [07/Dec/2024:03:14:24 +0000] "GET /favicon.ico HTTP/1.1" 304 - "http://localhost:3000/search" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"

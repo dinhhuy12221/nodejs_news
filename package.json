@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon --inspect src/index.js",
     "watch": "sass --watch src/resources/scss/app.scss src/public/css/app.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "beautiful": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -22,14 +23,25 @@
   },
   "homepage": "https://github.com/dinhhuy12221/nodejs_blog#readme",
   "description": "",
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "blog": "file:",
     "express": "5.0.1",
     "express-handlebars": "^8.0.1"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
+    "prettier": "^3.4.2",
     "sass": "^1.82.0"
   }
 }
