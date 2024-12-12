@@ -33,9 +33,14 @@
   },
   "dependencies": {
     "blog": "file:",
+    "body-parser": "^2.0.2",
     "express": "5.0.1",
     "express-handlebars": "^8.0.1",
-    "mongoose": "^8.8.4"
+    "method-override": "^3.0.0",
+    "mongoose": "^8.8.4",
+    "mongoose-delete": "^1.0.2",
+    "mongoose-slug-generator": "^1.0.4",
+    "mongoose-slug-updater": "^3.3.0"
   },
   "devDependencies": {
     "husky": "^4.3.8",

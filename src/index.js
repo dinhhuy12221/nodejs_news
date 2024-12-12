@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
+const methodOverride = require('method-override');
 var path = require('path');
 var fs = require('fs');
 
@@ -22,6 +24,8 @@ app.use(
 );
 app.use(express.json());
 
+app.use(methodOverride('_method'));
+
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(
     path.join(__dirname, '../log/access.log'),
@@ -38,6 +42,9 @@ app.engine(
     'hbs',
     handlebars.engine({
         extname: '.hbs',
+        helpers: {
+            sum: (a, b) => a + b,
+        },
     }),
 );
 app.set('view engine', 'hbs');
