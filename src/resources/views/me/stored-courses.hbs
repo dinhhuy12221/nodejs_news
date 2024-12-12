@@ -23,11 +23,17 @@
               <th scope="col">#</th>
               <th scope="col" class="d-flex align-items-center">
                 <span>Tên khóa học</span>&nbsp;
-                <a href="?_sort&column=name&type=desc"><span class="oi oi-elevator"></span></a>
+                {{{sortable 'name' _sort}}}
                 </th>
-              <th scope="col">Trình độ</th>
+              <th scope="col">
+                Trình độ
+                {{{sortable 'level' _sort}}}
+              </th>
               <th scope="col">Mô tả</th>
-              <th scope="col">Thời gian tạo</th>
+              <th scope="col">
+                Thời gian tạo
+                {{{sortable 'createdAt' _sort}}}
+                </th>
               <th scope="col" colspan="2">Chức năng</th>
             </tr>
         </thead>
