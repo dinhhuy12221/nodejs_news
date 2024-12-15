@@ -6,7 +6,7 @@ mongoose.plugin(slug);
 
 const Schema = mongoose.Schema;
 
-const Course = new Schema(
+const Post = new Schema(
     {
         name: { type: String, default: '', required: true },
         description: { type: String, default: '' },
@@ -25,9 +25,9 @@ const Course = new Schema(
 //   next();
 // });
 
-Course.plugin(mongooseDelete, {
+Post.plugin(mongooseDelete, {
     deletedAt: true,
     overrideMethods: 'all',
 });
 
-module.exports = mongoose.model('Course', Course);
+module.exports = mongoose.model('Post', Post);

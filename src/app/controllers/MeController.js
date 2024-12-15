@@ -1,36 +1,36 @@
-const Course = require('../models/Course');
+const Post = require('../models/Post');
 const { multipleMongooseToObject } = require('../../util/mongoose');
 
 class MeController {
-    // [GET] /me/stored/courses
-    storedCourses(req, res, next) {
-        let courseQuery = Course.find({});
+    // [GET] /me/stored/posts
+    storedPosts(req, res, next) {
+        let postQuery = Post.find({});
 
         if (req.query._sort === '') {
-            courseQuery = courseQuery.sort({
+            postQuery = postQuery.sort({
                 [req.query.column]: req.query.type,
             });
         }
 
         Promise.all([
-            courseQuery,
-            Course.countDocumentsWithDeleted({ deleted: true }),
+            postQuery,
+            Post.countDocumentsWithDeleted({ deleted: true }),
         ])
-            .then(([courses, deletedCount]) =>
-                res.render('me/stored-courses', {
+            .then(([posts, deletedCount]) =>
+                res.render('me/stored-posts', {
                     deletedCount,
-                    courses: multipleMongooseToObject(courses),
+                    posts: multipleMongooseToObject(posts),
                 }),
             )
             .catch(next);
     }
 
-    // [GET] /me/trash/courses
-    trashCourses(req, res, next) {
-        Course.findWithDeleted({ deleted: true })
-            .then((courses) =>
-                res.render('me/trash-courses', {
-                    courses: multipleMongooseToObject(courses),
+    // [GET] /me/trash/posts
+    trashPosts(req, res, next) {
+        Post.findWithDeleted({ deleted: true })
+            .then((posts) =>
+                res.render('me/trash-posts', {
+                    posts: multipleMongooseToObject(posts),
                 }),
             )
             .catch(next);

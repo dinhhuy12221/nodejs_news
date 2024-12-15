@@ -1,5 +1,5 @@
 const express = require('express');
-const Course = require('../models/Course');
+const Course = require('../models/Post');
 const { multipleMongooseToObject } = require('../../util/mongoose');
 class SiteController {
     // [GET] /
