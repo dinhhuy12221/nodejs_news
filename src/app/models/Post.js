@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
 const mongooseDelete = require('mongoose-delete');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 mongoose.plugin(slug);
 
@@ -8,14 +9,16 @@ const Schema = mongoose.Schema;
 
 const Post = new Schema(
     {
-        name: { type: String, default: '', required: true },
-        description: { type: String, default: '' },
-        image: { type: String, maxLength: 255 },
-        videoID: { type: String, required: true },
-        level: { type: String },
-        slug: { type: String, slug: 'name', unique: true },
+        _id: { type: Number },
+        title: { type: String, default: '', required: true },
+        author: { type: String, default: '' },
+        content: { type: String, default: '' },
+        category: { type: String, default: '' },
+        credit: { type: String },
+        slug: { type: String, slug: 'title', unique: true },
     },
     {
+        _id: false,
         timestamps: true,
     },
 );
@@ -24,6 +27,19 @@ const Post = new Schema(
 //   this.slug = this.name.split(" ").join("-");
 //   next();
 // });
+
+// Custom query helpers
+Post.query.sortable = function (req) {
+    if (req.query._sort === '') {
+        const isValidType = ['asc', 'desc'].includes(req.query.type);
+        return this.sort({
+            [req.query.column]: isValidType ? req.query.type : 'desc',
+        });
+    }
+    return this;
+};
+
+Post.plugin(AutoIncrement);
 
 Post.plugin(mongooseDelete, {
     deletedAt: true,
