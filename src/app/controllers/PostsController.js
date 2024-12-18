@@ -1,16 +1,34 @@
 const Post = require('../models/Post');
-const { mongooseToObject } = require('../../util/mongoose');
+const {
+    mongooseToObject,
+    multipleMongooseToObject,
+} = require('../../util/mongoose');
+const mongoose = require('../../util/mongoose');
 
 class PostsController {
     // [GET] /posts/:slug
     show(req, res, next) {
-        Post.findOne({ slug: req.params.slug })
-            .then((post) => {
+        let post = Post.findOne({ slug: req.params.slug });
+        let relatedPosts = Post.find({ slug: { $ne: post.getQuery().slug } });
+
+        // console.log((post.getQuery().slug))
+
+        Promise.all([relatedPosts, post])
+            .then(([relatedPosts, post]) => {
                 res.render('posts/show', {
+                    relatedPosts: multipleMongooseToObject(relatedPosts),
                     post: mongooseToObject(post),
                 });
             })
             .catch(next);
+
+        // Post.findOne({ slug: req.params.slug })
+        //     .then((post) => {
+        //         res.render('posts/show', {
+        //         post: mongooseToObject(post),
+        //         })
+        //     })
+        //     .catch(next);
     }
 
     // [GET] /posts/create
@@ -21,7 +39,6 @@ class PostsController {
     // [POST] /posts/store
     store(req, res, next) {
         const formData = { ...req.body };
-        formData.image = `https://i.ytimg.com/vi/${req.body.videoID}/hqdefault.jpg`;
         const post = new Post(formData);
         post.save()
             // .then(() => { res.redirect(course.slug, 'show', { course: mongooseToObject(course) })})
