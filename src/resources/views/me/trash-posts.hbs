@@ -1,7 +1,7 @@
-<form class="m-3" name="handle-trashed-form-actions" method="POST" action="/courses/handle-trashed-form-actions">
+<form class="m-3" name="handle-trashed-form-actions" method="POST" action="/posts/handle-trashed-form-actions">
   <div class="mb-3">
-    <a href="/me/stored/courses">Danh sách khóa học</a>
-    <h3>Khóa học đã xóa</h3>
+    <a href="/me/stored/posts">Danh sách bài viết</a>
+    <h3>Bài đăng đã xóa</h3>
     <div class="m-3 d-flex align-items-center" style="gap: 10px">
       <div class="form-check mb-2">
         <input class="form-check-input" type="checkbox" id="checkbox-all">
@@ -20,34 +20,42 @@
     <table class="table">
         <thead>
             <tr>
-            <th scope="col"></th>
-            <th scope="col">#</th>
-            <th scope="col">Tên khóa học</th>
-            <th scope="col">Trình độ</th>
-            <th scope="col">Mô tả</th>
-            <th scope="col">Thời gian xóa</th>
-            <th scope="col" colspan="2">Chức năng</th>
+              <th class="text-right" scope="col" colspan="2">#</th>
+              <th scope="col">
+                <span>Tiêu đề</span>&nbsp;
+                {{{sortable 'title' _sort}}}
+                </th>
+              <th scope="col" scope="col">
+                Tác giả
+                {{{sortable 'author' _sort}}}
+              </th>
+              <th scope="col">Nguồn</th>
+              <th scope="col">
+                Thời gian tạo
+                {{{sortable 'createdAt' _sort}}}
+                </th>
+              <th class="text-center" scope="col" colspan="2">Chức năng</th>
             </tr>
         </thead>
         <tbody>
-            {{#each courses}}
+            {{#each posts}}
             <tr>
             <td>
               <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" name="courseIds[]"
+                  <input class="form-check-input" type="checkbox" name="postIds[]"
                   value="{{this._id}}"/>
               </div>
             </td>
             <th scope="row">{{sum @index 1}}</th>
-            <td>{{this.name}}</td>
-            <td>{{this.level}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.deletedAt}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.author}}</td>
+            <td>{{this.credit}}</td>
+            <td>{{this.createdAt}}</td>
             <td>
                 <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
             </td>
             <td>
-                <a href="" class="btn btn-link"  data-toggle="modal" data-target="#delete-course-modal" data-id="{{this._id}}">Xóa vĩnh viễn</a>
+                <a href="" class="btn btn-link"  data-toggle="modal" data-target="#delete-post-modal" data-id="{{this._id}}">Xóa vĩnh viễn</a>
             </td>
             </tr>
             {{else}}
@@ -55,7 +63,7 @@
               <td colspan="7" class="text-center">
                 <i>
                   Thùng rác trống.
-                  <a href="/me/stored/courses">Danh sách khóa học.</a>
+                  <a href="/me/stored/posts">Danh sách bài viết.</a>
                 </i>
               </td>
             </tr>
@@ -64,9 +72,9 @@
     </table>
 </form>
 
-{{!-- Confirm to delete course --}}
+{{!-- Confirm to delete post --}}
 
-<div class="modal" id="delete-course-modal" tabindex="-1" role="dialog">
+<div class="modal" id="delete-post-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -76,17 +84,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Bạn có chắc chắn muốn xóa vĩnh viễn khóa học này?</p>
+        <p>Bạn có chắc chắn muốn xóa vĩnh viễn bài viết này?</p>
       </div>
       <div class="modal-footer">
-        <button id="btn-delete-course" type="button" class="btn btn-danger">Xóa</button>
+        <button id="btn-delete-post" type="button" class="btn btn-danger">Xóa</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
       </div>
     </div>
   </div>
 </div>
 
-{{!-- Confirm to delete course --}}
+{{!-- Confirm to delete post --}}
 
 <div class="modal" id="delete-courses-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -98,69 +106,69 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Bạn có chắc chắn muốn xóa vĩnh viễn các khóa học đã chọn này?</p>
+        <p>Bạn có chắc chắn muốn xóa vĩnh viễn các bài viết đã chọn này?</p>
       </div>
       <div class="modal-footer">
-        <button id="btn-delete-multiple-courses" type="button" class="btn btn-danger">Xóa</button>
+        <button id="btn-delete-multiple-posts" type="button" class="btn btn-danger">Xóa</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
       </div>
     </div>
   </div>
 </div>
 
-<form name="delete-course-form" method="post"></form>
-<form name="restore-course-form" method="post"></form>
+<form name="delete-post-form" method="post"></form>
+<form name="restore-post-form" method="post"></form>
 
 <script>
     // When dialog confirm clicked
     document.addEventListener('DOMContentLoaded', function() {
-        var courseId;
+        var postId;
         //Forms
-        var deleteForm = document.forms['delete-course-form'];
-        var restoreForm = document.forms['restore-course-form'];
-        var deleteMultipleCoursesForm = document.forms['handle-trashed-form-actions'];
+        var deleteForm = document.forms['delete-post-form'];
+        var restoreForm = document.forms['restore-post-form'];
+        var deleteMultiplePostsForm = document.forms['handle-trashed-form-actions'];
 
         // Buttons
-        var btnDeleteCourse = document.getElementById('btn-delete-course');
+        var btnDeletePost = document.getElementById('btn-delete-post');
         var restoreBtn = $('.btn-restore');
         var checkAllSubmitBtn = $('.check-all-submit-btn');
-        var btnDeleteMultipleCourses = $('#btn-delete-multiple-courses');
+        var btnDeleteMultiplePosts = $('#btn-delete-multiple-posts');
 
         // Others
-        var courseItemCheckbox = $('input[name="courseIds[]"]');
+        var postItemCheckbox = $('input[name="postIds[]"]');
         var checkboxAll = $('#checkbox-all');
         var checkBoxSelectAllOptions = $('.checkbox-select-all-options');
 
-        $('#delete-course-modal').on('show.bs.modal', function (event) {
+        $('#delete-post-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
-            courseId = button.data('id');
+            postId = button.data('id');
         });
         
         // Deleted btn clicked
-        btnDeleteCourse.onclick = function () {
-            deleteForm.action = '/courses/' + courseId + '/force?_method=DELETE';
+        btnDeletePost.onclick = function () {
+            deleteForm.action = '/courses/' + postId + '/force?_method=DELETE';
             deleteForm.submit();
         }
 
         // Restored btn clicked
         restoreBtn.click(function(e) {
           e.preventDefault();
-          var courseId = $(this).data('id');
-          restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH';
+          var postId = $(this).data('id');
+          restoreForm.action = '/courses/' + postId + '/restore?_method=PATCH';
           restoreForm.submit();
         });
 
         // CheckboxAll clicked
         checkboxAll.change(function () {
           var isCheckedAll = $(this).prop('checked');
-          courseItemCheckbox.prop("checked", isCheckedAll);
+          postItemCheckbox.prop("checked", isCheckedAll);
 
           renderCheckAllSubmitBtn();
         })
 
-        // Course item checkbox clicked
-        courseItemCheckbox.change(function() {
-          var isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length;
+        // Post item checkbox clicked
+        postItemCheckbox.change(function() {
+          var isCheckedAll = postItemCheckbox.length === $('input[name="postIds[]"]:checked').length;
           
           checkboxAll.prop('checked', isCheckedAll);
 
@@ -182,12 +190,12 @@
         })
 
         // Click delete confirm button 
-        btnDeleteMultipleCourses.click(function() {
-          deleteMultipleCoursesForm.submit();
+        btnDeleteMultiplePosts.click(function() {
+          deleteMultiplePostsForm.submit();
         })
 
         function renderCheckAllSubmitBtn() {
-          var checkCount = $('input[name="courseIds[]"]:checked').length;
+          var checkCount = $('input[name="postIds[]"]:checked').length;
           if (checkCount > 0) {
             checkAllSubmitBtn.attr('disabled', false);
           } else {
