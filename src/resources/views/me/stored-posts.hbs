@@ -16,15 +16,18 @@
       <button class="btn btn-primary btn-sm check-all-submit-btn" disabled="disabled">Áp dụng</button>
     </div>
   </div>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
               <th class="text-right" scope="col" colspan="2">#</th>
-              <th scope="col">
+              <th scope="col" style="width: 350px">
                 <span>Tiêu đề</span>&nbsp;
                 {{{sortable 'title' _sort}}}
-                </th>
-              <th scope="col" scope="col">
+              </th>
+              <th scope="col">
+                <span>Thể loại</span>
+              </th>
+              <th scope="col">
                 Tác giả
                 {{{sortable 'author' _sort}}}
               </th>
@@ -47,6 +50,7 @@
               </td>
             <th scope="row">{{sum @index 1}}</th>
             <td>{{this.title}}</td>
+            <td>{{this.category}}</td>
             <td>{{this.author}}</td>
             <td>{{this.credit}}</td>
             <td>{{this.createdAt}}</td>
