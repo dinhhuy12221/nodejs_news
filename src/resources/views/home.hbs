@@ -1,17 +1,14 @@
 <div class="m-4">
     <div class="row">
-        {{#each courses}}
+        {{#each posts}}
             <div class="col-sm-6 col-lg-4">
-                <div class="card card-course-item">
-                    <a href="/courses/{{this.slug}}">
-                    <img src="{{this.image}}" class="card-img-top" alt="...">
-                    </a>
+                <div class="card card-post-item">
+                    <a href="/posts/{{this.slug}}">
                     <div class="card-body">
-                        <a href="/courses/{{this.slug}}">
-                        <h5 class="card-title">{{this.name}}</h5>
+                        <a href="/posts/{{this.slug}}">
+                        <h5 class="card-title">{{this.title}}</h5>
                         </a>
-                        <p class="card-text">{{this.description}}</p>
-                        <a href="#" class="btn btn-primary">Mua</a>
+                        <p class="card-text">{{this.content}}</p>
                     </div>
                 </div>
             </div>
