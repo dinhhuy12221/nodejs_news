@@ -1,21 +1,29 @@
 <div class="m-4">
     <div class="row">
-        <div class="col-lg-3">
-            <button>HỌC NGAY</button>
-            <ul>
-                <li>
-                    <span>Trình độ: {{course.level}}</span>
-                </li>
-            </ul>
+        <div class="col-lg-8 post-frame">
+            <h1>{{post.title}}</h1>
+            <div>
+                <p>
+                    {{post.content}}
+                </p>
+            </div>
         </div>
-        <div class="col-lg-9">
-            <h2 class="">{{course.name}}
-            </h2>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/{{course.videoID}}?si=NONAw6ManOCw4e5f" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <br>
-            <b>Mô tả</b>
-            <p>{{course.description}}
-            </p>
+        <div class="col-lg-4">
+            <h4 class="text-center">Bài viết liên quan
+            </h4>
+            <div class="related-posts">
+                {{#each relatedPosts }}
+                    <div class="card card-related-post-item">
+                        <a href="/posts/{{this.slug}}">
+                        <div class="card-body">
+                            <a href="/posts/{{this.slug}}">
+                            <h5 class="card-title">{{this.title}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
         </div>
     </div>
 </div>
