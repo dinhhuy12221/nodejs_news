@@ -3,8 +3,8 @@ const { multipleMongooseToObject } = require('../../util/mongoose');
 
 class MeController {
     // [GET] /me/stored/posts
-    storedPosts(req, res, next) {
-        let postQuery = Post.find({});
+    async storedPosts(req, res, next) {
+        let postQuery = await Post.find({});
 
         if (req.query._sort === '') {
             postQuery = postQuery.sort({
@@ -26,8 +26,8 @@ class MeController {
     }
 
     // [GET] /me/trash/posts
-    trashPosts(req, res, next) {
-        Post.findWithDeleted({ deleted: true })
+    async trashPosts(req, res, next) {
+        await Post.findWithDeleted({ deleted: true })
             .then((posts) =>
                 res.render('me/trash-posts', {
                     posts: multipleMongooseToObject(posts),

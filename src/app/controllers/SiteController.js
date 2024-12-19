@@ -2,8 +2,8 @@ const Post = require('../models/Post');
 const { multipleMongooseToObject } = require('../../util/mongoose');
 class SiteController {
     // [GET] /
-    index(req, res, next) {
-        Post.find()
+    async index(req, res, next) {
+        await Post.find()
             .then((posts) => {
                 res.render('home', {
                     posts: multipleMongooseToObject(posts),
@@ -13,8 +13,8 @@ class SiteController {
     }
 
     // [GET] /:slug
-    slug(req, res, next) {
-        Post.find({ category: req.params.slug })
+    async slug(req, res, next) {
+        await Post.find({ category: req.params.slug })
             .then((posts) => {
                 res.render('home', {
                     posts: multipleMongooseToObject(posts),
@@ -26,6 +26,16 @@ class SiteController {
     // [GET] /search
     search(req, res) {
         res.render('search');
+    }
+
+    // [GET] /login
+    login(req, res, next) {
+        res.render('login');
+    }
+
+    // [GET] /*
+    notFound(req, res, next) {
+        res.status(404).send('<h1>404 Not Found</h1>');
     }
 }
 
