@@ -3,32 +3,28 @@ const {
     mongooseToObject,
     multipleMongooseToObject,
 } = require('../../util/mongoose');
-const mongoose = require('../../util/mongoose');
 
 class PostsController {
     // [GET] /posts/:slug
-    show(req, res, next) {
-        let post = Post.findOne({ slug: req.params.slug });
-        let relatedPosts = Post.find({ slug: { $ne: post.getQuery().slug } });
-
-        // console.log((post.getQuery().slug))
+    async show(req, res, next) {
+        let post = await Post.findOne({ slug: req.params.slug });
+        let relatedPosts = await Post.find({
+            _id: { $ne: post._id },
+            category: post.category,
+        });
 
         Promise.all([relatedPosts, post])
             .then(([relatedPosts, post]) => {
+                if (post === null || relatedPosts === null) {
+                    res.status(404).render('not-found');
+                    return;
+                }
                 res.render('posts/show', {
                     relatedPosts: multipleMongooseToObject(relatedPosts),
                     post: mongooseToObject(post),
                 });
             })
             .catch(next);
-
-        // Post.findOne({ slug: req.params.slug })
-        //     .then((post) => {
-        //         res.render('posts/show', {
-        //         post: mongooseToObject(post),
-        //         })
-        //     })
-        //     .catch(next);
     }
 
     // [GET] /posts/create
