@@ -1,8 +1,8 @@
 const Session = require('../app/models/Session');
 
-createSession = (user) => {
+createSession = () => {
     try {
-        const sessionId = Date.now().toString() + user._id;
+        const sessionId = Date.now().toString();
         Session.create({ sessionId });
         return sessionId;
     } catch (error) {
