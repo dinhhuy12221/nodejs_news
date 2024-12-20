@@ -1,4 +1,5 @@
 const Handlebars = require('handlebars');
+const app = require('../index');
 
 module.exports = {
     print: (a) => console.log(a),
@@ -43,5 +44,9 @@ module.exports = {
         const output = `<a href="${href}"><span class="${icon}"></span></a>`;
 
         return new Handlebars.SafeString(output);
+    },
+    isLogin: () => {
+        console.log(app.locals.isLogin);
+        return app.locals.isLogin;
     },
 };
