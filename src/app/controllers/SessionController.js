@@ -8,12 +8,19 @@ const Session = require('../models/Session');
 
 class SessionController {
     // [GET] /login
-    async loginGet(req, res) {
-        res.render('login', {
-            title: 'Trang đăng nhập',
-            layout: 'loginLayout',
-            isNotValid: req.query.isNotValid,
-        });
+    async loginGet(req, res, next) {
+        await Session.findOne({ sessionId: req.cookies.sessionId })
+            .then((session) => {
+                if (session) {
+                    res.redirect('/me/stored/posts');
+                } else {
+                    res.render('login', {
+                        layout: 'loginLayout',
+                        isNotValid: req.query.isNotValid,
+                    });
+                }
+            })
+            .catch(next);
     }
 
     // [POST] /login
@@ -24,6 +31,7 @@ class SessionController {
         })
             .then((user) => {
                 if (user) {
+                    Session.deleteMany({ userId: user.userId });
                     const sessionId = createSession(user.userId);
                     res.setHeader(
                         'Set-Cookie',
@@ -39,7 +47,11 @@ class SessionController {
 
     // [POST] /logout
     async logout(req, res, next) {
-        await Session.deleteOne({ sessionId: req.cookies.sessionId })
+        const session = await Session.findOne({
+            sessionId: req.cookies.sessionId,
+        });
+
+        await Session.deleteMany({ userId: session.userId })
             .then(() => {
                 res.clearCookie('sessionId').redirect('/');
             })
