@@ -1,21 +1,23 @@
-<form class="card d-flex flex-column align-items-center justify-content-center w-25 p-3" method="POST">
-  <h1>Login</h1>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email</label>
-    <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" 
-    value="dhuy@gmail.com"
-    required>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
-    value="dhuy"
-    required>
-  </div>
-  {{#if isNotValid}}
+<div class="d-flex justify-content-center align-items-center" style="max-width: 100vw; width: 100vw; height: 100%">
+  <form class="card d-flex flex-column align-items-center p-4" method="POST">
+    <h1>Login</h1>
     <div class="form-group">
-        <p class="text-danger" style="font-size: 13px">Username or password is incorrect</p>
+      <label for="exampleInputEmail1">Email</label>
+      <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" 
+      value="dhuy@gmail.com"
+      required>
     </div>
-  {{/if}}
-  <button type="submit" class="btn btn-primary">Login</button>
-</form>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+      value="dhuy"
+      required>
+    </div>
+    {{#if isNotValid}}
+      <div class="form-group">
+          <p class="text-danger" style="font-size: 13px">Username or password is incorrect</p>
+      </div>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+</div>
