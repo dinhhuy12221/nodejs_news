@@ -1,9 +1,11 @@
 const Session = require('../app/models/Session');
 
-createSession = () => {
+createSession = (userId) => {
     try {
+        console.log(userId);
+
         const sessionId = Date.now().toString();
-        Session.create({ sessionId });
+        Session.create({ sessionId, userId });
         return sessionId;
     } catch (error) {
         console.log(error);
