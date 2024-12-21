@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
 const SortMiddleware = require('./app/middlewares/SortMiddleware');
-const Session = require('./app/models/Session');
 var path = require('path');
 var fs = require('fs');
 
@@ -52,12 +51,6 @@ app.engine(
 );
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
-
-app.use((req, res, next) => {
-    const session = Session.findOne({ sessionId: req.cookies.sessionId });
-    app.locals.isLogin = session.getQuery().sessionId ? true : false;
-    next();
-});
 
 // Routes init
 route(app);
