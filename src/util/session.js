@@ -2,8 +2,6 @@ const Session = require('../app/models/Session');
 
 createSession = (userId) => {
     try {
-        console.log(userId);
-
         const sessionId = Date.now().toString();
         Session.create({ sessionId, userId });
         return sessionId;
@@ -21,4 +19,4 @@ deleteSession = (sessionId) => {
     }
 };
 
-module.exports = { createSession };
+module.exports = { createSession, deleteSession };
