@@ -1,10 +1,12 @@
 const Post = require('../models/Post');
 const { multipleMongooseToObject } = require('../../util/mongoose');
+const { sortable } = require('../../helpers/handlebars');
 
 class MeController {
     // [GET] /me/stored/posts
-    async storedPosts(req, res, next) {
-        let postQuery = await Post.find({});
+    // sort ko su dung duoc async await
+    storedPosts(req, res, next) {
+        let postQuery = Post.find({});
 
         if (req.query._sort === '') {
             postQuery = postQuery.sort({
@@ -26,8 +28,15 @@ class MeController {
     }
 
     // [GET] /me/trash/posts
-    async trashPosts(req, res, next) {
-        await Post.findWithDeleted({ deleted: true })
+    trashPosts(req, res, next) {
+        let postQuery = Post.findWithDeleted({ deleted: true });
+
+        if (req.query._sort === '') {
+            postQuery = postQuery.sort({
+                [req.query.column]: req.query.type,
+            });
+        }
+        postQuery
             .then((posts) =>
                 res.render('me/trash-posts', {
                     posts: multipleMongooseToObject(posts),
