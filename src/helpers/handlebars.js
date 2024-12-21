@@ -5,8 +5,7 @@ module.exports = {
     print: (a) => console.log(a),
     sum: (a, b) => a + b,
     isNotEqual: (a, b) => {
-        console.log(a);
-        console.log(b);
+        return a !== b;
     },
     convertDate: (d) => {
         var options = {
