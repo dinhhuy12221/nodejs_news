@@ -13,7 +13,7 @@ const Post = new Schema(
         title: { type: String, default: '', required: true },
         author: { type: String, default: '' },
         content: { type: String, default: '' },
-        category: { type: String, default: '' },
+        category: { type: String },
         credit: { type: String },
         slug: { type: String, slug: 'title', unique: true },
     },
@@ -39,7 +39,7 @@ Post.query.sortable = function (req) {
     return this;
 };
 
-Post.plugin(AutoIncrement);
+// Post.plugin(AutoIncrement);
 
 Post.plugin(mongooseDelete, {
     deletedAt: true,
