@@ -19,9 +19,9 @@
   "author": "dinhhuy12221",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dinhhuy12221/nodejs_blog/issues"
+    "url": "https://github.com/dinhhuy12221/nodejs_news/issues"
   },
-  "homepage": "https://github.com/dinhhuy12221/nodejs_blog#readme",
+  "homepage": "https://github.com/dinhhuy12221/nodejs_news#readme",
   "description": "",
   "lint-staged": {
     "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
@@ -34,13 +34,15 @@
   "dependencies": {
     "blog": "file:",
     "body-parser": "^2.0.2",
+    "cookie-parser": "^1.4.7",
     "express": "5.0.1",
     "express-handlebars": "^8.0.1",
     "method-override": "^3.0.0",
-    "mongoose": "^8.8.4",
+    "mongoose": "^8.9.0",
     "mongoose-delete": "^1.0.2",
+    "mongoose-sequence": "^6.0.1",
     "mongoose-slug-generator": "^1.0.4",
-    "mongoose-slug-updater": "^3.3.0"
+    "mongoose-slug-updater": "^2.2.0"
   },
   "devDependencies": {
     "husky": "^4.3.8",
