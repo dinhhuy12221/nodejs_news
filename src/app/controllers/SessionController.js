@@ -1,5 +1,10 @@
 const User = require('../models/User');
-const { createSession, deleteSession } = require('../../util/session');
+const {
+    createSession,
+    deleteSession,
+    getSession,
+    getUserFromSession,
+} = require('../../util/session');
 const {
     mongooseToObject,
     multipleMongooseToObject,
@@ -9,7 +14,7 @@ const Session = require('../models/Session');
 class SessionController {
     // [GET] /login
     async loginGet(req, res, next) {
-        await Session.findOne({ sessionId: req.cookies.sessionId })
+        getSession(req.cookies.sessionId)
             .then((session) => {
                 if (session) {
                     res.redirect('/me/stored/posts');
@@ -47,9 +52,7 @@ class SessionController {
 
     // [POST] /logout
     async logout(req, res, next) {
-        const session = await Session.findOne({
-            sessionId: req.cookies.sessionId,
-        });
+        const session = getSession(req.cookies.sessionId);
 
         await Session.deleteMany({ userId: session.userId })
             .then(() => {
