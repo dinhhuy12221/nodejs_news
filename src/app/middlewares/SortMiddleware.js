@@ -2,7 +2,7 @@ module.exports = function (req, res, next) {
     res.locals._sort = {
         enabled: false,
         type: 'default',
-        column: 'name',
+        column: 'title',
     };
 
     if (req.query._sort === '') {
