@@ -34,7 +34,7 @@
               </th>
               <th scope="col">Nguồn</th>
               <th scope="col">
-                Thời gian tạo
+                Thời gian xóa
                 {{{sortable 'createdAt' _sort}}}
                 </th>
               <th class="text-center" scope="col" colspan="2">Chức năng</th>
@@ -54,7 +54,7 @@
             <td>{{this.category}}</td>
             <td>{{this.author}}</td>
             <td>{{this.credit}}</td>
-            <td>{{this.createdAt}}</td>
+            <td>{{convertDate this.deletedAt}}</td>
             <td>
                 <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
             </td>
