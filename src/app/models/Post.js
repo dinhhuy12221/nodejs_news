@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 const Post = new Schema(
     {
         _id: { type: Number },
+        userId: { type: Number, required: true },
         title: { type: String, default: '', required: true },
         author: { type: String, default: '' },
         content: { type: String, default: '' },
