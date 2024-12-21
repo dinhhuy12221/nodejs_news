@@ -7,6 +7,15 @@ const Session = require('../app/models/Session');
 const User = require('../app/models/User');
 
 function route(app) {
+    sessionValidation(app);
+    app.use('/posts', postsRouter);
+    app.use('/me', meRouter);
+    app.use('/login', loginRouter);
+    app.use('/logout', logoutRouter);
+    app.use('/', siteRouter);
+}
+
+function sessionValidation(app) {
     app.use(async (req, res, next) => {
         const session = await Session.findOne({
             sessionId: req.cookies.sessionId,
@@ -22,11 +31,6 @@ function route(app) {
         }
         next();
     });
-    app.use('/posts', postsRouter);
-    app.use('/me', meRouter);
-    app.use('/login', loginRouter);
-    app.use('/logout', logoutRouter);
-    app.use('/', siteRouter);
 }
 
-module.exports = route;
+(module.exports = route), { sessionValidation };
