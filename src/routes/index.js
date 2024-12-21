@@ -11,14 +11,14 @@ function route(app) {
         const session = await Session.findOne({
             sessionId: req.cookies.sessionId,
         });
+
+        app.locals.isLogin = false;
         if (session) {
             const user = await User.findOne({ userId: session.userId });
             if (user) {
                 app.locals.username = user.username;
+                app.locals.isLogin = session.sessionId ? true : false;
             }
-            app.locals.isLogin = session.sessionId ? true : false;
-        } else {
-            app.locals.isLogin = false;
         }
         next();
     });
