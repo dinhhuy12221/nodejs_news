@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { createSession } = require('../../util/session');
+const { createSession, deleteSession } = require('../../util/session');
 const {
     mongooseToObject,
     multipleMongooseToObject,
@@ -41,8 +41,7 @@ class SessionController {
     async logout(req, res, next) {
         await Session.deleteOne({ sessionId: req.cookies.sessionId })
             .then(() => {
-                res.clearCookie('sessionId');
-                res.redirect('/');
+                res.clearCookie('sessionId').redirect('/');
             })
             .catch(next);
     }
