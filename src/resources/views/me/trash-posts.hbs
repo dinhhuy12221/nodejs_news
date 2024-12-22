@@ -150,7 +150,7 @@
         
         // Deleted btn clicked
         btnDeletePost.onclick = function () {
-            deleteForm.action = '/courses/' + postId + '/force?_method=DELETE';
+            deleteForm.action = '/posts/' + postId + '/force?_method=DELETE';
             deleteForm.submit();
         }
 
@@ -158,7 +158,7 @@
         restoreBtn.click(function(e) {
           e.preventDefault();
           var postId = $(this).data('id');
-          restoreForm.action = '/courses/' + postId + '/restore?_method=PATCH';
+          restoreForm.action = '/posts/' + postId + '/restore?_method=PATCH';
           restoreForm.submit();
         });
 
