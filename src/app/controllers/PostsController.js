@@ -4,6 +4,8 @@ const {
     multipleMongooseToObject,
 } = require('../../util/mongoose');
 
+const { getUserFromSession } = require('../../util/session');
+
 class PostsController {
     // [GET] /posts/:slug
     async show(req, res, next) {
@@ -38,7 +40,8 @@ class PostsController {
 
     // [POST] /posts/store
     async store(req, res, next) {
-        const formData = { ...req.body };
+        const user = await getUserFromSession(req.cookies.sessionId);
+        const formData = { userId: user.userId, ...req.body };
         const post = new Post(formData);
         await post
             .save()
@@ -81,6 +84,7 @@ class PostsController {
 
     // [PATCH] /posts/:id/restore
     async restore(req, res, next) {
+        console.log(req.params.id, 'aa');
         await Post.restore({ _id: req.params.id })
             .then(() => res.redirect('/me/trash/posts'))
             .catch(next);
