@@ -18,6 +18,6 @@ const UserSchema = new Schema(
     },
 );
 
-UserSchema.plugin(AutoIncrement);
+// UserSchema.plugin(AutoIncrement);
 
 module.exports = mongoose.model('User', UserSchema);
