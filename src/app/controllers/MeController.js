@@ -5,8 +5,9 @@ const { sortable } = require('../../helpers/handlebars');
 class MeController {
     // [GET] /me/stored/posts
     // sort ko su dung duoc async await
-    storedPosts(req, res, next) {
-        let postQuery = Post.find({});
+    async storedPosts(req, res, next) {
+        const user = await getUserFromSession(req.cookies.sessionId);
+        let postQuery = Post.find({ userId: user.userId });
 
         if (req.query._sort === '') {
             postQuery = postQuery.sort({
@@ -16,7 +17,10 @@ class MeController {
 
         Promise.all([
             postQuery,
-            Post.countDocumentsWithDeleted({ deleted: true }),
+            Post.countDocumentsWithDeleted({
+                deleted: true,
+                userId: user.userId,
+            }),
         ])
             .then(([posts, deletedCount]) =>
                 res.render('me/stored-posts', {
@@ -28,8 +32,12 @@ class MeController {
     }
 
     // [GET] /me/trash/posts
-    trashPosts(req, res, next) {
-        let postQuery = Post.findWithDeleted({ deleted: true });
+    async trashPosts(req, res, next) {
+        const user = await getUserFromSession(req.cookies.sessionId);
+        let postQuery = Post.findWithDeleted({
+            deleted: true,
+            userId: user.userId,
+        });
 
         if (req.query._sort === '') {
             postQuery = postQuery.sort({
