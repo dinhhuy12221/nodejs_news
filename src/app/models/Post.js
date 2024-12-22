@@ -40,7 +40,7 @@ Post.query.sortable = function (req) {
     return this;
 };
 
-// Post.plugin(AutoIncrement);
+Post.plugin(AutoIncrement);
 
 Post.plugin(mongooseDelete, {
     deletedAt: true,
