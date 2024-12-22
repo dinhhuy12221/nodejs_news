@@ -34,10 +34,11 @@ class SessionController {
             email: req.body.email,
             password: req.body.password,
         })
-            .then((user) => {
+            .then(async (user) => {
                 if (user) {
-                    Session.deleteMany({ userId: user.userId });
+                    await Session.deleteMany({ userId: user.userId });
                     const sessionId = createSession(user.userId);
+
                     res.setHeader(
                         'Set-Cookie',
                         `sessionId=${sessionId}; max-age=3600; httpOnly;`,
@@ -52,11 +53,13 @@ class SessionController {
 
     // [POST] /logout
     async logout(req, res, next) {
-        const session = getSession(req.cookies.sessionId);
-
-        await Session.deleteMany({ userId: session.userId })
-            .then(() => {
-                res.clearCookie('sessionId').redirect('/');
+        getSession(req.cookies.sessionId)
+            .then(async (session) => {
+                await Session.deleteMany({ userId: session.userId })
+                    .then(() => {
+                        res.clearCookie('sessionId').redirect('/');
+                    })
+                    .catch(next);
             })
             .catch(next);
     }
