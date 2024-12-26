@@ -40,14 +40,18 @@ class PostsController {
 
     // [POST] /posts/store
     async store(req, res, next) {
-        const user = await getUserFromSession(req.cookies.sessionId);
-        const formData = { userId: user.userId, ...req.body };
-        const post = new Post(formData);
-        await post
-            .save()
-            // .then(() => { res.redirect(course.slug, 'show', { course: mongooseToObject(course) })})
-            .then(() => res.redirect('/me/stored/posts'))
-            .catch(next);
+        try {
+            const user = await getUserFromSession(req.cookies.sessionId);
+            const formData = { userId: user.userId, ...req.body };
+            const post = new Post(formData);
+            await post
+                .save()
+                // .then(() => { res.redirect(course.slug, 'show', { course: mongooseToObject(course) })})
+                .then(() => res.redirect('/me/stored/posts'))
+                .catch(next);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // [GET] /posts/:id/edit
