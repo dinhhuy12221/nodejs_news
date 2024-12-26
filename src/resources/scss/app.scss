@@ -1,7 +1,20 @@
 @import 'variables';
 
-.card-course-item {
+.card-post-item {
     margin-bottom: 20px;
+    height: 220px !important;
+    padding: 5px;
+}
+
+.card-post-item a,
+.card-body .card-text,
+.card-related-post-item {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 100px;
+    text-overflow: ellipsis;
 }
 
 .user-avatar {
@@ -13,4 +26,9 @@
 
 .checkbox-select-all-options {
     width: 200px;
+}
+
+.related-posts .card-related-post-item {
+    height: auto !important;
+    margin-bottom: 10px;
 }
